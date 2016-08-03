@@ -74,7 +74,14 @@ extension MapViewController {
         } catch {
             print("Failed to fetch Pins from Main Queue")
         }
-        
+    }
+    
+    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+        if segue.identifier == "pinTappedSegue" {
+            let pin = sender as! Pin
+            let destinationViewController = segue.destinationViewController as! PinPhotoCollectionViewController
+            destinationViewController.pin = pin
+        }
     }
     
 }
@@ -90,6 +97,8 @@ extension MapViewController: MKMapViewDelegate {
             mapView.removeAnnotation(annotation)
             coreDataStack.context.deleteObject(annotation)
             coreDataStack.save()
+        } else {
+            performSegueWithIdentifier("pinTappedSegue", sender: annotation)
         }
         
     }

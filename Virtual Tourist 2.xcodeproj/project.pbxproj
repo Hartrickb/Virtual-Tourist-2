@@ -17,6 +17,7 @@
 		91C811121D525EB500CA4253 /* Pin.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91C811101D525EB500CA4253 /* Pin.swift */; };
 		91C811141D5266B100CA4253 /* CoreDataStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91C811131D5266B100CA4253 /* CoreDataStack.swift */; };
 		91C811161D52930200CA4253 /* GCDBlackBox.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91C811151D52930200CA4253 /* GCDBlackBox.swift */; };
+		91C811181D52988D00CA4253 /* PinPhotoCollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91C811171D52988D00CA4253 /* PinPhotoCollectionViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -32,6 +33,7 @@
 		91C811101D525EB500CA4253 /* Pin.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Pin.swift; path = ../Pin.swift; sourceTree = "<group>"; };
 		91C811131D5266B100CA4253 /* CoreDataStack.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CoreDataStack.swift; sourceTree = "<group>"; };
 		91C811151D52930200CA4253 /* GCDBlackBox.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GCDBlackBox.swift; sourceTree = "<group>"; };
+		91C811171D52988D00CA4253 /* PinPhotoCollectionViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PinPhotoCollectionViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -70,6 +72,7 @@
 				91C811101D525EB500CA4253 /* Pin.swift */,
 				91C811131D5266B100CA4253 /* CoreDataStack.swift */,
 				91C810FC1D52554300CA4253 /* Main.storyboard */,
+				91C811171D52988D00CA4253 /* PinPhotoCollectionViewController.swift */,
 				91C8110C1D525E1B00CA4253 /* Model.xcdatamodeld */,
 				91C8110A1D5257A200CA4253 /* MapViewController.swift */,
 				91C810FF1D52554300CA4253 /* Assets.xcassets */,
@@ -156,6 +159,7 @@
 				91C811121D525EB500CA4253 /* Pin.swift in Sources */,
 				91C811141D5266B100CA4253 /* CoreDataStack.swift in Sources */,
 				91C811111D525EB500CA4253 /* Pin+CoreDataProperties.swift in Sources */,
+				91C811181D52988D00CA4253 /* PinPhotoCollectionViewController.swift in Sources */,
 				91C8110E1D525E1B00CA4253 /* Model.xcdatamodeld in Sources */,
 				91C811161D52930200CA4253 /* GCDBlackBox.swift in Sources */,
 			);
