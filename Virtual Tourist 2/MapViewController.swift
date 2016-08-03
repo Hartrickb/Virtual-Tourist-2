@@ -13,12 +13,28 @@ class MapViewController: UIViewController {
     
     @IBOutlet weak var mapView: MKMapView!
     @IBOutlet weak var editView: UIView!
+    @IBOutlet weak var editButton: UIBarButtonItem!
     
     let coreDataStack = CoreDataStack(modelName: "Model")!
     var editMode = false
     
     @IBAction func addPinToMap(sender: UILongPressGestureRecognizer) {
         addPin(sender)
+    }
+    @IBAction func editButton(sender: UIBarButtonItem) {
+        
+        editMode = !editMode
+        if editMode {
+            UIView.animateWithDuration(0.3, animations: {
+                self.editView.hidden = false
+            })
+            editButton.title = "Done"
+        } else {
+            UIView.animateWithDuration(0.3, animations: {
+                self.editView.hidden = true
+            })
+            editButton.title = "Edit"
+        }
     }
 }
 

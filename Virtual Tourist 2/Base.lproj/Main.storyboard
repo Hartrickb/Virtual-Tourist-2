@@ -45,21 +45,29 @@
                                             <outletCollection property="gestureRecognizers" destination="nBO-Mj-JYo" appends="YES" id="lRb-bX-b7t"/>
                                         </connections>
                                     </mapView>
-                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="xPJ-DJ-OV7">
+                                    <view hidden="YES" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" horizontalCompressionResistancePriority="751" verticalCompressionResistancePriority="751" translatesAutoresizingMaskIntoConstraints="NO" id="xPJ-DJ-OV7">
                                         <rect key="frame" x="0.0" y="536" width="600" height="0.0"/>
                                         <subviews>
-                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="zS3-hx-zWM">
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" horizontalCompressionResistancePriority="751" verticalCompressionResistancePriority="751" text="Tap Pin To Delete" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="zS3-hx-zWM">
                                                 <rect key="frame" x="0.0" y="0.0" width="600" height="0.0"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                                <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                                <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
                                         </subviews>
-                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                        <color key="backgroundColor" red="1" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                        <constraints>
+                                            <constraint firstAttribute="bottom" secondItem="zS3-hx-zWM" secondAttribute="bottom" id="LrI-Ms-yjc"/>
+                                            <constraint firstAttribute="height" priority="999" constant="50" id="SaB-t9-HWZ"/>
+                                            <constraint firstItem="zS3-hx-zWM" firstAttribute="top" secondItem="xPJ-DJ-OV7" secondAttribute="top" id="TQB-XO-kQl"/>
+                                            <constraint firstItem="zS3-hx-zWM" firstAttribute="leading" secondItem="xPJ-DJ-OV7" secondAttribute="leading" id="xNb-Ka-i6K"/>
+                                            <constraint firstAttribute="trailing" secondItem="zS3-hx-zWM" secondAttribute="trailing" id="y8c-vN-KbQ"/>
+                                        </constraints>
                                     </view>
                                 </subviews>
                                 <constraints>
-                                    <constraint firstItem="xPJ-DJ-OV7" firstAttribute="bottom" secondItem="vOp-F2-qkm" secondAttribute="bottom" id="uaB-0n-ED7"/>
+                                    <constraint firstAttribute="trailing" secondItem="xPJ-DJ-OV7" secondAttribute="trailing" id="hs3-B7-Lwd"/>
+                                    <constraint firstItem="xPJ-DJ-OV7" firstAttribute="leading" secondItem="W3n-mi-b4D" secondAttribute="leading" id="m6i-Q6-1sq"/>
                                 </constraints>
                             </stackView>
                         </subviews>
@@ -72,9 +80,14 @@
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="Virtual Tourist" id="y3m-eQ-CZz">
-                        <barButtonItem key="rightBarButtonItem" title="Edit" id="Lyv-ZB-cT5"/>
+                        <barButtonItem key="rightBarButtonItem" title="Edit" id="Lyv-ZB-cT5">
+                            <connections>
+                                <action selector="editButton:" destination="7W4-T7-toy" id="GZK-od-Fv5"/>
+                            </connections>
+                        </barButtonItem>
                     </navigationItem>
                     <connections>
+                        <outlet property="editButton" destination="Lyv-ZB-cT5" id="OKM-ps-nxW"/>
                         <outlet property="editView" destination="xPJ-DJ-OV7" id="2uZ-N1-eNJ"/>
                         <outlet property="mapView" destination="vOp-F2-qkm" id="UUJ-Lq-nXN"/>
                     </connections>
