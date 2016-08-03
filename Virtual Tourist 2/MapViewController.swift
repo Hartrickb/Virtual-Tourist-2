@@ -8,6 +8,7 @@
 
 import UIKit
 import MapKit
+import CoreData
 
 class MapViewController: UIViewController {
     
@@ -17,6 +18,12 @@ class MapViewController: UIViewController {
     
     let coreDataStack = CoreDataStack(modelName: "Model")!
     var editMode = false
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        
+        fetchPinsFromMainQueue()
+    }
     
     @IBAction func addPinToMap(sender: UILongPressGestureRecognizer) {
         addPin(sender)
@@ -50,10 +57,42 @@ extension MapViewController {
             mapView.addAnnotation(annotation)
         }
     }
+    
+    func fetchPinsFromMainQueue() {
+        
+        let fetchRequest = NSFetchRequest(entityName: "Pin")
+        var pins: [Pin]
+        do {
+            let result = try coreDataStack.context.executeFetchRequest(fetchRequest) as? [Pin]
+            if let result = result {
+                pins = result
+                performUIUpdatesOnMain({ 
+                    self.mapView.removeAnnotations(self.mapView.annotations)
+                    self.mapView.addAnnotations(pins)
+                })
+            }
+        } catch {
+            print("Failed to fetch Pins from Main Queue")
+        }
+        
+    }
+    
 }
 
 // MARK: Delegate
 extension MapViewController: MKMapViewDelegate {
+    
+    func mapView(mapView: MKMapView, didSelectAnnotationView view: MKAnnotationView) {
+        
+        let annotation = view.annotation as! Pin
+        
+        if editMode {
+            mapView.removeAnnotation(annotation)
+            coreDataStack.context.deleteObject(annotation)
+            coreDataStack.save()
+        }
+        
+    }
     
     func mapView(mapView: MKMapView, viewForAnnotation annotation: MKAnnotation) -> MKAnnotationView? {
         
