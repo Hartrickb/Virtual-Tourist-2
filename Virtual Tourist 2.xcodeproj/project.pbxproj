@@ -15,6 +15,7 @@
 		91C8110E1D525E1B00CA4253 /* Model.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 91C8110C1D525E1B00CA4253 /* Model.xcdatamodeld */; };
 		91C811111D525EB500CA4253 /* Pin+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91C8110F1D525EB500CA4253 /* Pin+CoreDataProperties.swift */; };
 		91C811121D525EB500CA4253 /* Pin.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91C811101D525EB500CA4253 /* Pin.swift */; };
+		91C811141D5266B100CA4253 /* CoreDataStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91C811131D5266B100CA4253 /* CoreDataStack.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -28,6 +29,7 @@
 		91C8110D1D525E1B00CA4253 /* Model.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Model.xcdatamodel; sourceTree = "<group>"; };
 		91C8110F1D525EB500CA4253 /* Pin+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "Pin+CoreDataProperties.swift"; path = "../Pin+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		91C811101D525EB500CA4253 /* Pin.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Pin.swift; path = ../Pin.swift; sourceTree = "<group>"; };
+		91C811131D5266B100CA4253 /* CoreDataStack.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CoreDataStack.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -63,6 +65,7 @@
 				91C810F81D52554300CA4253 /* AppDelegate.swift */,
 				91C8110F1D525EB500CA4253 /* Pin+CoreDataProperties.swift */,
 				91C811101D525EB500CA4253 /* Pin.swift */,
+				91C811131D5266B100CA4253 /* CoreDataStack.swift */,
 				91C810FC1D52554300CA4253 /* Main.storyboard */,
 				91C8110C1D525E1B00CA4253 /* Model.xcdatamodeld */,
 				91C8110A1D5257A200CA4253 /* MapViewController.swift */,
@@ -148,6 +151,7 @@
 				91C8110B1D5257A200CA4253 /* MapViewController.swift in Sources */,
 				91C810F91D52554300CA4253 /* AppDelegate.swift in Sources */,
 				91C811121D525EB500CA4253 /* Pin.swift in Sources */,
+				91C811141D5266B100CA4253 /* CoreDataStack.swift in Sources */,
 				91C811111D525EB500CA4253 /* Pin+CoreDataProperties.swift in Sources */,
 				91C8110E1D525E1B00CA4253 /* Model.xcdatamodeld in Sources */,
 			);

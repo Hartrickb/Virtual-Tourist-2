@@ -14,6 +14,7 @@ class MapViewController: UIViewController {
     @IBOutlet weak var mapView: MKMapView!
     @IBOutlet weak var editView: UIView!
     
+    let coreDataStack = CoreDataStack(modelName: "Model")!
     var editMode = false
     
     @IBAction func addPinToMap(sender: UILongPressGestureRecognizer) {
@@ -28,9 +29,8 @@ extension MapViewController {
         if gesture.state == .Ended && !editMode {
             let areaTapped = gesture.locationInView(mapView)
             let tapCoordinate = mapView.convertPoint(areaTapped, toCoordinateFromView: mapView)
-            let annotation = MKPointAnnotation()
-            annotation.coordinate = tapCoordinate
-            
+            let annotation = Pin(latitude: tapCoordinate.latitude, longitude: tapCoordinate.longitude, context: coreDataStack.context)
+            coreDataStack.save()
             mapView.addAnnotation(annotation)
         }
     }

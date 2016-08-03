@@ -8,9 +8,14 @@
 
 import Foundation
 import CoreData
+import MapKit
 
 
-class Pin: NSManagedObject {
+class Pin: NSManagedObject, MKAnnotation {
+    
+    var coordinate: CLLocationCoordinate2D {
+        return CLLocationCoordinate2DMake(Double(latitude), Double(longitude))
+    }
     
     convenience init(latitude: Double, longitude: Double, context: NSManagedObjectContext) {
         if let entity = NSEntityDescription.entityForName("Pin", inManagedObjectContext: context) {
