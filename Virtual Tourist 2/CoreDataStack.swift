@@ -167,7 +167,15 @@ extension CoreDataStack {
     }
 }
 
-
+// MARK: Shared Instance
+extension CoreDataStack {
+    static func sharedInstance() -> CoreDataStack {
+        struct Singleton {
+            static var sharedInstance = CoreDataStack(modelName: "Model")!
+        }
+        return Singleton.sharedInstance
+    }
+}
 
 
 

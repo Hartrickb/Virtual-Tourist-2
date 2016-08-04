@@ -16,7 +16,7 @@ class MapViewController: UIViewController {
     @IBOutlet weak var editView: UIView!
     @IBOutlet weak var editButton: UIBarButtonItem!
     
-    let coreDataStack = CoreDataStack(modelName: "Model")!
+    let coreDataStack = CoreDataStack.sharedInstance()
     var editMode = false
     
     override func viewDidLoad() {
