@@ -18,6 +18,8 @@
 		91C811141D5266B100CA4253 /* CoreDataStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91C811131D5266B100CA4253 /* CoreDataStack.swift */; };
 		91C811161D52930200CA4253 /* GCDBlackBox.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91C811151D52930200CA4253 /* GCDBlackBox.swift */; };
 		91C811181D52988D00CA4253 /* PinPhotoCollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91C811171D52988D00CA4253 /* PinPhotoCollectionViewController.swift */; };
+		91C811231D52D53B00CA4253 /* Photo+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91C811211D52D53B00CA4253 /* Photo+CoreDataProperties.swift */; };
+		91C811241D52D53B00CA4253 /* Photo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91C811221D52D53B00CA4253 /* Photo.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -34,6 +36,8 @@
 		91C811131D5266B100CA4253 /* CoreDataStack.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CoreDataStack.swift; sourceTree = "<group>"; };
 		91C811151D52930200CA4253 /* GCDBlackBox.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GCDBlackBox.swift; sourceTree = "<group>"; };
 		91C811171D52988D00CA4253 /* PinPhotoCollectionViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PinPhotoCollectionViewController.swift; sourceTree = "<group>"; };
+		91C811211D52D53B00CA4253 /* Photo+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "Photo+CoreDataProperties.swift"; path = "../Photo+CoreDataProperties.swift"; sourceTree = "<group>"; };
+		91C811221D52D53B00CA4253 /* Photo.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Photo.swift; path = ../Photo.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -70,6 +74,8 @@
 				91C810F81D52554300CA4253 /* AppDelegate.swift */,
 				91C8110F1D525EB500CA4253 /* Pin+CoreDataProperties.swift */,
 				91C811101D525EB500CA4253 /* Pin.swift */,
+				91C811211D52D53B00CA4253 /* Photo+CoreDataProperties.swift */,
+				91C811221D52D53B00CA4253 /* Photo.swift */,
 				91C811131D5266B100CA4253 /* CoreDataStack.swift */,
 				91C810FC1D52554300CA4253 /* Main.storyboard */,
 				91C811171D52988D00CA4253 /* PinPhotoCollectionViewController.swift */,
@@ -158,8 +164,10 @@
 				91C810F91D52554300CA4253 /* AppDelegate.swift in Sources */,
 				91C811121D525EB500CA4253 /* Pin.swift in Sources */,
 				91C811141D5266B100CA4253 /* CoreDataStack.swift in Sources */,
+				91C811241D52D53B00CA4253 /* Photo.swift in Sources */,
 				91C811111D525EB500CA4253 /* Pin+CoreDataProperties.swift in Sources */,
 				91C811181D52988D00CA4253 /* PinPhotoCollectionViewController.swift in Sources */,
+				91C811231D52D53B00CA4253 /* Photo+CoreDataProperties.swift in Sources */,
 				91C8110E1D525E1B00CA4253 /* Model.xcdatamodeld in Sources */,
 				91C811161D52930200CA4253 /* GCDBlackBox.swift in Sources */,
 			);
@@ -311,6 +319,7 @@
 				91C811091D52554300CA4253 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 
