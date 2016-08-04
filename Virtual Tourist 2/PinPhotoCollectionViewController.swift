@@ -13,19 +13,48 @@ import MapKit
 class PinPhotoCollectionViewController: UIViewController {
     
     @IBOutlet weak var mapView: MKMapView!
+    @IBOutlet weak var collectionView: UICollectionView!
     
     var pin: Pin!
     let coreDataStack = CoreDataStack.sharedInstance()
+    var fetchedResultsController: NSFetchedResultsController!
     var currentPage = 1
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        collectionView.dataSource = self
+        
         mapView.addAnnotation(pin)
         mapView.showAnnotations([pin], animated: true)
         mapView.camera.altitude *= 25
         
-        getPhotoURLs()
+        if fetchPhotosFromMain().isEmpty {
+            getPhotoURLs()
+        }
+    }
+    
+    func fetchPhotosFromMain() -> [Photo] {
+        let fetchRequest = NSFetchRequest(entityName: "Photo")
+        
+        // Make sure photos appear in the same order each time
+        let sortDescriptor = NSSortDescriptor(key: "url", ascending: true)
+        fetchRequest.sortDescriptors = [sortDescriptor]
+        
+        // Only get photos for selected pin
+        let predicate = NSPredicate(format: "pin = %@", pin)
+        fetchRequest.predicate = predicate
+        fetchedResultsController = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: coreDataStack.context, sectionNameKeyPath: nil, cacheName: nil)
+        
+        var photos = [Photo]()
+        do {
+            try fetchedResultsController.performFetch()
+            photos = fetchedResultsController.fetchedObjects as! [Photo]
+        } catch let error {
+            print("Error Fetching: \(error)")
+        }
+        
+        return photos
     }
     
     func getPhotoURLs() {
@@ -54,5 +83,75 @@ class PinPhotoCollectionViewController: UIViewController {
         }
     }
     
+    func assignCellNewPhoto(cell: PhotoCollectionViewCell, photo: Photo) {
+        cell.activityIndicator.startAnimating()
+        let url = NSURL(string: photo.url)!
+        
+        let task = FlickrClient.sharedInstance().downloadDataForURL(url) { (data, error) in
+            
+            guard error == nil else {
+                print("Error: \(error)")
+                return
+            }
+                
+            guard let data = data else {
+                print("No data returned with this request")
+                return
+            }
+            
+            performUIUpdatesOnMain({ 
+                photo.imageData = data
+                let image = UIImage(data: data)
+                cell.activityIndicator.stopAnimating()
+                cell.imageView.image = image
+            })
+        }
+        task.resume()
+    }
 }
+
+
+// MARK: DataSource
+
+extension PinPhotoCollectionViewController: UICollectionViewDataSource {
+    
+    func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        guard let fetchedItems = fetchedResultsController.fetchedObjects?.count else {
+            return 0
+        }
+        return fetchedItems
+    }
+    
+    func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
+        let identifier = "PhotoCollectionViewCell"
+        let cell = collectionView.dequeueReusableCellWithReuseIdentifier(identifier, forIndexPath: indexPath) as! PhotoCollectionViewCell
+        let photo = fetchedResultsController.objectAtIndexPath(indexPath) as! Photo
+        
+        if let imageData = photo.imageData {
+            cell.imageView.image = UIImage(data: imageData)
+        } else {
+            assignCellNewPhoto(cell, photo: photo)
+            coreDataStack.save()
+        }
+        
+        return cell
+    }
+    
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 

@@ -67,6 +67,42 @@ class FlickrClient {
     
     // MARK: Helpers
     
+    // Download data for a given URL
+    func downloadDataForURL(cellURL: NSURL, completionHandlerForDownload: (data: NSData?, error: NSError?) -> Void) -> NSURLSessionDataTask {
+        
+        let task = session.dataTaskWithURL(cellURL) { (data, response, error) in
+            
+            func sendError(error: String) {
+                print(error)
+                let userInfo = [NSLocalizedDescriptionKey : error]
+                completionHandlerForDownload(data: nil, error: NSError(domain: "taskForGETMethod", code: 1, userInfo: userInfo))
+            }
+            
+            /* GUARD: Was there an error? */
+            guard (error == nil) else {
+                sendError("There was an error with your request: \(error)")
+                return
+            }
+            
+            /* GUARD: Did we get a successful 2XX response? */
+            guard let statusCode = (response as? NSHTTPURLResponse)?.statusCode where statusCode >= 200 && statusCode <= 299 else {
+                sendError("Your request returned a status code other than 2xx!")
+                return
+            }
+            
+            /* GUARD: Was there any data returned? */
+            guard let data = data else {
+                sendError("No data was returned by the request!")
+                return
+            }
+            
+            completionHandlerForDownload(data: data, error: nil)
+        }
+        
+        task.resume()
+        return task
+    }
+    
     // Given raw JSON, return a usable Foundation object
     private func convertDataWithCompletionHandler(data: NSData, completionHandlerForConvertData: (result: AnyObject!, error: NSError?) -> Void) {
         

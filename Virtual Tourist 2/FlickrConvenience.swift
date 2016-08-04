@@ -48,7 +48,6 @@ extension FlickrClient {
                         }
                     }
                     
-                    print("photoURLs: \(photoURLs)")
                     completionHandlerForPinPhotos(results: photoURLs, pages: numPages, errorString: nil)
                 }
             }

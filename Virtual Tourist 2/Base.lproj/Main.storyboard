@@ -114,6 +114,12 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
+                            <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="XCT-nm-q6M">
+                                <rect key="frame" x="0.0" y="64" width="600" height="138"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="138" id="VhT-bS-9c1"/>
+                                </constraints>
+                            </mapView>
                             <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="TTO-lz-fQr">
                                 <rect key="frame" x="0.0" y="556" width="600" height="44"/>
                                 <items>
@@ -124,30 +130,46 @@
                             </toolbar>
                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="Wbo-dD-0cI">
                                 <rect key="frame" x="0.0" y="210" width="600" height="346"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="Lhd-WM-nDs">
-                                    <size key="itemSize" width="50" height="50"/>
+                                    <size key="itemSize" width="120" height="120"/>
                                     <size key="headerReferenceSize" width="0.0" height="0.0"/>
                                     <size key="footerReferenceSize" width="0.0" height="0.0"/>
                                     <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
                                 </collectionViewFlowLayout>
                                 <cells>
-                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="pinImageCell" id="jID-eB-KVf">
-                                        <rect key="frame" x="0.0" y="0.0" width="50" height="50"/>
+                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="PhotoCollectionViewCell" id="jID-eB-KVf" customClass="PhotoCollectionViewCell" customModule="Virtual_Tourist_2" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="0.0" width="120" height="120"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
-                                            <rect key="frame" x="0.0" y="0.0" width="50" height="50"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="120" height="120"/>
                                             <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="bKv-Eg-tBN">
+                                                    <rect key="frame" x="0.0" y="0.0" width="120" height="120"/>
+                                                </imageView>
+                                                <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" style="white" translatesAutoresizingMaskIntoConstraints="NO" id="Vmf-KU-tzl">
+                                                    <rect key="frame" x="50" y="50" width="20" height="20"/>
+                                                </activityIndicatorView>
+                                            </subviews>
                                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                         </view>
+                                        <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
+                                        <constraints>
+                                            <constraint firstItem="bKv-Eg-tBN" firstAttribute="top" secondItem="jID-eB-KVf" secondAttribute="topMargin" constant="-8" id="0xz-hn-QzT"/>
+                                            <constraint firstItem="Vmf-KU-tzl" firstAttribute="centerY" secondItem="jID-eB-KVf" secondAttribute="centerY" id="D0Y-fL-K24"/>
+                                            <constraint firstItem="bKv-Eg-tBN" firstAttribute="leading" secondItem="jID-eB-KVf" secondAttribute="leadingMargin" constant="-8" id="Lbr-q4-lrN"/>
+                                            <constraint firstAttribute="bottomMargin" secondItem="bKv-Eg-tBN" secondAttribute="bottom" constant="-8" id="iZq-LO-ig0"/>
+                                            <constraint firstItem="Vmf-KU-tzl" firstAttribute="centerX" secondItem="jID-eB-KVf" secondAttribute="centerX" id="pcM-1Y-ZYz"/>
+                                            <constraint firstAttribute="trailingMargin" secondItem="bKv-Eg-tBN" secondAttribute="trailing" constant="-8" id="sEJ-Cw-OeF"/>
+                                        </constraints>
+                                        <connections>
+                                            <outlet property="activityIndicator" destination="Vmf-KU-tzl" id="ivU-tV-fUg"/>
+                                            <outlet property="imageView" destination="bKv-Eg-tBN" id="vEI-TQ-YoF"/>
+                                        </connections>
                                     </collectionViewCell>
                                 </cells>
                             </collectionView>
-                            <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="XCT-nm-q6M">
-                                <rect key="frame" x="0.0" y="64" width="600" height="138"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="138" id="VhT-bS-9c1"/>
-                                </constraints>
-                            </mapView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
@@ -164,6 +186,7 @@
                         </constraints>
                     </view>
                     <connections>
+                        <outlet property="collectionView" destination="Wbo-dD-0cI" id="5sD-Jy-vJP"/>
                         <outlet property="mapView" destination="XCT-nm-q6M" id="bHV-lN-gHn"/>
                     </connections>
                 </viewController>
