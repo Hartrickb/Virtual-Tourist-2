@@ -14,16 +14,27 @@ class PinPhotoCollectionViewController: UIViewController {
     
     @IBOutlet weak var mapView: MKMapView!
     @IBOutlet weak var collectionView: UICollectionView!
+    @IBOutlet weak var bottomButton: UIBarButtonItem!
     
     var pin: Pin!
     let coreDataStack = CoreDataStack.sharedInstance()
     var fetchedResultsController: NSFetchedResultsController!
     var currentPage = 1
+    var selectedPhotos: [NSIndexPath] = [] {
+        didSet {
+            if selectedPhotos.isEmpty {
+                bottomButton.title = "New Collection"
+            } else {
+                bottomButton.title = "Delete Images"
+            }
+        }
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
         collectionView.dataSource = self
+        collectionView.delegate = self
         
         mapView.addAnnotation(pin)
         mapView.showAnnotations([pin], animated: true)
@@ -136,10 +147,25 @@ extension PinPhotoCollectionViewController: UICollectionViewDataSource {
         
         return cell
     }
-    
 }
 
+// MARK: Delegate
 
+extension PinPhotoCollectionViewController: UICollectionViewDelegate {
+    
+    func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
+        let cell = collectionView.cellForItemAtIndexPath(indexPath) as! PhotoCollectionViewCell
+        
+        if let index = selectedPhotos.indexOf(indexPath) {
+            selectedPhotos.removeAtIndex(index)
+            cell.imageView.alpha = 1.0
+        } else {
+            selectedPhotos.append(indexPath)
+            cell.imageView.alpha = 0.5
+        }
+    }
+    
+}
 
 
 
