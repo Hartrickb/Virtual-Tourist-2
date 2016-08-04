@@ -55,6 +55,7 @@ extension MapViewController {
             let annotation = Pin(latitude: tapCoordinate.latitude, longitude: tapCoordinate.longitude, context: coreDataStack.context)
             coreDataStack.save()
             mapView.addAnnotation(annotation)
+            getPhotoURLs(annotation)
         }
     }
     
@@ -73,6 +74,32 @@ extension MapViewController {
             }
         } catch {
             print("Failed to fetch Pins from Main Queue")
+        }
+    }
+    
+    func getPhotoURLs(pin: Pin) {
+        FlickrClient.sharedInstance().getPhotoURLsFromPin(pin, page: 1) { (results, pages, errorString) in
+            if let error = errorString {
+                print("Error: \(error)")
+            } else {
+                
+                guard results != nil else {
+                    print("No results")
+                    return
+                }
+                
+                guard pages != nil else {
+                    print("No total number of pages")
+                    return
+                }
+                
+                for photoURL in results! {
+                    let urlString = String(photoURL)
+                    _ = Photo(pin: pin, url: urlString, context: self.coreDataStack.context)
+                }
+                self.coreDataStack.save()
+                
+            }
         }
     }
     
@@ -98,6 +125,7 @@ extension MapViewController: MKMapViewDelegate {
             coreDataStack.context.deleteObject(annotation)
             coreDataStack.save()
         } else {
+            mapView.deselectAnnotation(annotation, animated: true)
             performSegueWithIdentifier("pinTappedSegue", sender: annotation)
         }
         

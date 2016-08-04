@@ -186,6 +186,7 @@
                         </constraints>
                     </view>
                     <connections>
+                        <outlet property="bottomButton" destination="cyU-01-oIf" id="xgJ-2v-otW"/>
                         <outlet property="collectionView" destination="Wbo-dD-0cI" id="5sD-Jy-vJP"/>
                         <outlet property="mapView" destination="XCT-nm-q6M" id="bHV-lN-gHn"/>
                     </connections>
