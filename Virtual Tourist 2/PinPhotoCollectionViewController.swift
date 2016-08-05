@@ -47,7 +47,6 @@ class PinPhotoCollectionViewController: UIViewController {
     }
     
     @IBAction func bottomButtonPressed(sender: AnyObject) {
-        
         if selectedPhotos.isEmpty {
             for photo in fetchedResultsController.fetchedObjects as! [Photo] {
                 fetchedResultsController.managedObjectContext.deleteObject(photo)
@@ -145,6 +144,7 @@ class PinPhotoCollectionViewController: UIViewController {
         }
         task.resume()
     }
+    
 }
 
 
@@ -198,7 +198,6 @@ extension PinPhotoCollectionViewController: NSFetchedResultsControllerDelegate {
     func controller(controller: NSFetchedResultsController, didChangeObject anObject: AnyObject, atIndexPath indexPath: NSIndexPath?, forChangeType type: NSFetchedResultsChangeType, newIndexPath: NSIndexPath?) {
         
         if type == NSFetchedResultsChangeType.Insert {
-            print("Insert Object: \(newIndexPath)")
             
             blockOperations.append(NSBlockOperation(block: { [weak self] in
                 if let the = self {
@@ -206,14 +205,13 @@ extension PinPhotoCollectionViewController: NSFetchedResultsControllerDelegate {
                 }
             }))
         } else if type == NSFetchedResultsChangeType.Update {
-            print("Update Object: \(indexPath)")
+
             blockOperations.append(NSBlockOperation(block: { [weak self] in
                 if let the = self {
                     the.collectionView.reloadItemsAtIndexPaths([indexPath!])
                 }
             }))
         } else if type == NSFetchedResultsChangeType.Move {
-            print("Move Object: \(indexPath)")
             
             blockOperations.append(NSBlockOperation(block: { [weak self] in
                 if let the = self {
@@ -221,7 +219,6 @@ extension PinPhotoCollectionViewController: NSFetchedResultsControllerDelegate {
                 }
             }))
         } else if type == NSFetchedResultsChangeType.Delete {
-            print("Delete Object: \(indexPath)")
             
             blockOperations.append(NSBlockOperation(block: { [weak self] in
                 if let the = self {

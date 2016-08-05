@@ -55,7 +55,7 @@ extension MapViewController {
             let annotation = Pin(latitude: tapCoordinate.latitude, longitude: tapCoordinate.longitude, context: coreDataStack.context)
             coreDataStack.save()
             mapView.addAnnotation(annotation)
-            getPhotoURLs(annotation)
+//            getPhotoURLs(annotation)
         }
     }
     

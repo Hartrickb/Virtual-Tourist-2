@@ -21,4 +21,9 @@ class PhotoCollectionViewCell: UICollectionViewCell {
             }
         }
     }
+    
+    override func prepareForReuse() {
+        imageView.image = nil
+    }
+    
 }
