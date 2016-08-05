@@ -13,8 +13,6 @@
 		91C811031D52554300CA4253 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 91C811011D52554300CA4253 /* LaunchScreen.storyboard */; };
 		91C8110B1D5257A200CA4253 /* MapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91C8110A1D5257A200CA4253 /* MapViewController.swift */; };
 		91C8110E1D525E1B00CA4253 /* Model.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 91C8110C1D525E1B00CA4253 /* Model.xcdatamodeld */; };
-		91C811111D525EB500CA4253 /* Pin+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91C8110F1D525EB500CA4253 /* Pin+CoreDataProperties.swift */; };
-		91C811121D525EB500CA4253 /* Pin.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91C811101D525EB500CA4253 /* Pin.swift */; };
 		91C811141D5266B100CA4253 /* CoreDataStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91C811131D5266B100CA4253 /* CoreDataStack.swift */; };
 		91C811161D52930200CA4253 /* GCDBlackBox.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91C811151D52930200CA4253 /* GCDBlackBox.swift */; };
 		91C811181D52988D00CA4253 /* PinPhotoCollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91C811171D52988D00CA4253 /* PinPhotoCollectionViewController.swift */; };
@@ -24,6 +22,8 @@
 		91C8112E1D537AD000CA4253 /* FlickrConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91C8112D1D537AD000CA4253 /* FlickrConstants.swift */; };
 		91C811301D5381AF00CA4253 /* FlickrConvenience.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91C8112F1D5381AF00CA4253 /* FlickrConvenience.swift */; };
 		91C811341D53B6D900CA4253 /* PhotoCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91C811331D53B6D900CA4253 /* PhotoCollectionViewCell.swift */; };
+		91C8113C1D55105D00CA4253 /* Pin+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91C8113A1D55105D00CA4253 /* Pin+CoreDataProperties.swift */; };
+		91C8113D1D55105D00CA4253 /* Pin.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91C8113B1D55105D00CA4253 /* Pin.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -35,8 +35,6 @@
 		91C811041D52554300CA4253 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		91C8110A1D5257A200CA4253 /* MapViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MapViewController.swift; sourceTree = "<group>"; };
 		91C8110D1D525E1B00CA4253 /* Model.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Model.xcdatamodel; sourceTree = "<group>"; };
-		91C8110F1D525EB500CA4253 /* Pin+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "Pin+CoreDataProperties.swift"; path = "../Pin+CoreDataProperties.swift"; sourceTree = "<group>"; };
-		91C811101D525EB500CA4253 /* Pin.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Pin.swift; path = ../Pin.swift; sourceTree = "<group>"; };
 		91C811131D5266B100CA4253 /* CoreDataStack.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CoreDataStack.swift; sourceTree = "<group>"; };
 		91C811151D52930200CA4253 /* GCDBlackBox.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GCDBlackBox.swift; sourceTree = "<group>"; };
 		91C811171D52988D00CA4253 /* PinPhotoCollectionViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PinPhotoCollectionViewController.swift; sourceTree = "<group>"; };
@@ -46,6 +44,8 @@
 		91C8112D1D537AD000CA4253 /* FlickrConstants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FlickrConstants.swift; sourceTree = "<group>"; };
 		91C8112F1D5381AF00CA4253 /* FlickrConvenience.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FlickrConvenience.swift; sourceTree = "<group>"; };
 		91C811331D53B6D900CA4253 /* PhotoCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PhotoCollectionViewCell.swift; sourceTree = "<group>"; };
+		91C8113A1D55105D00CA4253 /* Pin+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "Pin+CoreDataProperties.swift"; path = "../Pin+CoreDataProperties.swift"; sourceTree = "<group>"; };
+		91C8113B1D55105D00CA4253 /* Pin.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Pin.swift; path = ../Pin.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -101,8 +101,8 @@
 			isa = PBXGroup;
 			children = (
 				91C811131D5266B100CA4253 /* CoreDataStack.swift */,
-				91C8110F1D525EB500CA4253 /* Pin+CoreDataProperties.swift */,
-				91C811101D525EB500CA4253 /* Pin.swift */,
+				91C8113A1D55105D00CA4253 /* Pin+CoreDataProperties.swift */,
+				91C8113B1D55105D00CA4253 /* Pin.swift */,
 				91C811211D52D53B00CA4253 /* Photo+CoreDataProperties.swift */,
 				91C811221D52D53B00CA4253 /* Photo.swift */,
 				91C8110C1D525E1B00CA4253 /* Model.xcdatamodeld */,
@@ -230,16 +230,16 @@
 			files = (
 				91C8110B1D5257A200CA4253 /* MapViewController.swift in Sources */,
 				91C810F91D52554300CA4253 /* AppDelegate.swift in Sources */,
-				91C811121D525EB500CA4253 /* Pin.swift in Sources */,
 				91C811141D5266B100CA4253 /* CoreDataStack.swift in Sources */,
 				91C8112E1D537AD000CA4253 /* FlickrConstants.swift in Sources */,
 				91C811241D52D53B00CA4253 /* Photo.swift in Sources */,
-				91C811111D525EB500CA4253 /* Pin+CoreDataProperties.swift in Sources */,
 				91C811181D52988D00CA4253 /* PinPhotoCollectionViewController.swift in Sources */,
 				91C811231D52D53B00CA4253 /* Photo+CoreDataProperties.swift in Sources */,
+				91C8113D1D55105D00CA4253 /* Pin.swift in Sources */,
 				91C8112C1D53789D00CA4253 /* FlickrClient.swift in Sources */,
 				91C8110E1D525E1B00CA4253 /* Model.xcdatamodeld in Sources */,
 				91C811341D53B6D900CA4253 /* PhotoCollectionViewCell.swift in Sources */,
+				91C8113C1D55105D00CA4253 /* Pin+CoreDataProperties.swift in Sources */,
 				91C811301D5381AF00CA4253 /* FlickrConvenience.swift in Sources */,
 				91C811161D52930200CA4253 /* GCDBlackBox.swift in Sources */,
 			);

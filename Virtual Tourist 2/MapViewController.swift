@@ -55,7 +55,7 @@ extension MapViewController {
             let annotation = Pin(latitude: tapCoordinate.latitude, longitude: tapCoordinate.longitude, context: coreDataStack.context)
             coreDataStack.save()
             mapView.addAnnotation(annotation)
-//            getPhotoURLs(annotation)
+            getPhotoURLs(annotation)
         }
     }
     
@@ -92,7 +92,8 @@ extension MapViewController {
                     print("No total number of pages")
                     return
                 }
-                
+                pin.totalPages = pages!
+                pin.currentPage = 1
                 for photoURL in results! {
                     let urlString = String(photoURL)
                     _ = Photo(pin: pin, url: urlString, context: self.coreDataStack.context)

@@ -19,7 +19,24 @@ class PinPhotoCollectionViewController: UIViewController {
     var pin: Pin!
     let coreDataStack = CoreDataStack.sharedInstance()
     var fetchedResultsController: NSFetchedResultsController!
-    var currentPage = 1
+    var totalPages: Int {
+        return Int(pin.totalPages!)
+    }
+    var currentPage: Int {
+        get {
+            print("totalPages: \(totalPages)")
+            print("pin.currentPage: \(pin.currentPage!)")
+            if pin.currentPage! == totalPages || totalPages == 0 {
+                return 1
+            } else if Int(pin.currentPage!) < totalPages {
+                return Int(pin.currentPage!) + 1
+            } else {
+                return Int(pin.currentPage!)
+            }
+        } set(page) {
+            pin.currentPage = page
+        }
+    }
     var selectedPhotos: [NSIndexPath] = [] {
         didSet {
             if selectedPhotos.isEmpty {
@@ -36,6 +53,8 @@ class PinPhotoCollectionViewController: UIViewController {
         
         collectionView.dataSource = self
         collectionView.delegate = self
+        
+        // ADD ALERT FOR NO PHOTOS TO DISPLAY!!
         
         mapView.addAnnotation(pin)
         mapView.showAnnotations([pin], animated: true)
@@ -107,11 +126,7 @@ class PinPhotoCollectionViewController: UIViewController {
                     let urlString = String(photoURL)
                     _ = Photo(pin: self.pin, url: urlString, context: self.coreDataStack.context)
                 }
-                if self.currentPage < pages! {
-                    self.currentPage += 1
-                } else {
-                    self.currentPage = 1
-                }
+                self.pin.currentPage = self.currentPage
                 print("currentPage: \(self.currentPage)")
                 self.coreDataStack.save()
                 

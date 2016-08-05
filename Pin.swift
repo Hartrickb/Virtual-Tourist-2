@@ -2,7 +2,7 @@
 //  Pin.swift
 //  Virtual Tourist 2
 //
-//  Created by Bennett Hartrick on 8/3/16.
+//  Created by Bennett Hartrick on 8/5/16.
 //  Copyright © 2016 Bennett. All rights reserved.
 //
 
@@ -26,5 +26,4 @@ class Pin: NSManagedObject, MKAnnotation {
             fatalError("Could not initialize Pin")
         }
     }
-    
 }
