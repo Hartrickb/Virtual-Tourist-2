@@ -29,6 +29,7 @@ class PinPhotoCollectionViewController: UIViewController {
             }
         }
     }
+    var blockOperations: [NSBlockOperation] = []
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -45,6 +46,24 @@ class PinPhotoCollectionViewController: UIViewController {
         }
     }
     
+    @IBAction func bottomButtonPressed(sender: AnyObject) {
+        
+        if selectedPhotos.isEmpty {
+            for photo in fetchedResultsController.fetchedObjects as! [Photo] {
+                fetchedResultsController.managedObjectContext.deleteObject(photo)
+            }
+            getPhotoURLs()
+        } else {
+            for index in selectedPhotos {
+                let photo = fetchedResultsController.objectAtIndexPath(index) as? Photo
+                fetchedResultsController.managedObjectContext.deleteObject(photo!)
+            }
+            selectedPhotos.removeAll()
+            coreDataStack.save()
+        }
+        
+    }
+    
     func fetchPhotosFromMain() -> [Photo] {
         let fetchRequest = NSFetchRequest(entityName: "Photo")
         
@@ -56,6 +75,7 @@ class PinPhotoCollectionViewController: UIViewController {
         let predicate = NSPredicate(format: "pin = %@", pin)
         fetchRequest.predicate = predicate
         fetchedResultsController = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: coreDataStack.context, sectionNameKeyPath: nil, cacheName: nil)
+        fetchedResultsController.delegate = self
         
         var photos = [Photo]()
         do {
@@ -88,6 +108,12 @@ class PinPhotoCollectionViewController: UIViewController {
                     let urlString = String(photoURL)
                     _ = Photo(pin: self.pin, url: urlString, context: self.coreDataStack.context)
                 }
+                if self.currentPage < pages! {
+                    self.currentPage += 1
+                } else {
+                    self.currentPage = 1
+                }
+                print("currentPage: \(self.currentPage)")
                 self.coreDataStack.save()
                 
             }
@@ -162,6 +188,57 @@ extension PinPhotoCollectionViewController: UICollectionViewDelegate {
         } else {
             selectedPhotos.append(indexPath)
             cell.imageView.alpha = 0.5
+        }
+    }
+    
+}
+
+extension PinPhotoCollectionViewController: NSFetchedResultsControllerDelegate {
+    
+    func controller(controller: NSFetchedResultsController, didChangeObject anObject: AnyObject, atIndexPath indexPath: NSIndexPath?, forChangeType type: NSFetchedResultsChangeType, newIndexPath: NSIndexPath?) {
+        
+        if type == NSFetchedResultsChangeType.Insert {
+            print("Insert Object: \(newIndexPath)")
+            
+            blockOperations.append(NSBlockOperation(block: { [weak self] in
+                if let the = self {
+                    the.collectionView.insertItemsAtIndexPaths([newIndexPath!])
+                }
+            }))
+        } else if type == NSFetchedResultsChangeType.Update {
+            print("Update Object: \(indexPath)")
+            blockOperations.append(NSBlockOperation(block: { [weak self] in
+                if let the = self {
+                    the.collectionView.reloadItemsAtIndexPaths([indexPath!])
+                }
+            }))
+        } else if type == NSFetchedResultsChangeType.Move {
+            print("Move Object: \(indexPath)")
+            
+            blockOperations.append(NSBlockOperation(block: { [weak self] in
+                if let the = self {
+                    the.collectionView.moveItemAtIndexPath(indexPath!, toIndexPath: newIndexPath!)
+                }
+            }))
+        } else if type == NSFetchedResultsChangeType.Delete {
+            print("Delete Object: \(indexPath)")
+            
+            blockOperations.append(NSBlockOperation(block: { [weak self] in
+                if let the = self {
+                    the.collectionView.deleteItemsAtIndexPaths([indexPath!])
+                }
+            }))
+        }
+    }
+    
+    func controllerDidChangeContent(controller: NSFetchedResultsController) {
+        let batchUpdatesToPerform = {() -> Void in
+            for operation in self.blockOperations {
+                operation.start()
+            }
+        }
+        collectionView.performBatchUpdates(batchUpdatesToPerform) { (finished) in
+            self.blockOperations.removeAll(keepCapacity: false)
         }
     }
     

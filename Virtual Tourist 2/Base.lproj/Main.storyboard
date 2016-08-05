@@ -124,7 +124,11 @@
                                 <rect key="frame" x="0.0" y="556" width="600" height="44"/>
                                 <items>
                                     <barButtonItem style="plain" systemItem="flexibleSpace" id="bdd-4S-nZf"/>
-                                    <barButtonItem title="New Collection" id="cyU-01-oIf"/>
+                                    <barButtonItem title="New Collection" id="cyU-01-oIf">
+                                        <connections>
+                                            <action selector="bottomButtonPressed:" destination="LmU-aJ-bXf" id="zue-CS-spi"/>
+                                        </connections>
+                                    </barButtonItem>
                                     <barButtonItem style="plain" systemItem="flexibleSpace" id="T01-fy-Lhd"/>
                                 </items>
                             </toolbar>
