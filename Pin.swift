@@ -13,10 +13,12 @@ import MapKit
 
 class Pin: NSManagedObject, MKAnnotation {
     
+    // Makes Pin MKAnnotation compatible
     var coordinate: CLLocationCoordinate2D {
         return CLLocationCoordinate2DMake(Double(latitude), Double(longitude))
     }
     
+    // Initialized a new Pin
     convenience init(latitude: Double, longitude: Double, context: NSManagedObjectContext) {
         if let entity = NSEntityDescription.entityForName("Pin", inManagedObjectContext: context) {
             self.init(entity: entity, insertIntoManagedObjectContext: context)

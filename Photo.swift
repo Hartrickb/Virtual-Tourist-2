@@ -12,6 +12,7 @@ import CoreData
 
 class Photo: NSManagedObject {
     
+    // Initialized a new Photo for pin
     convenience init(pin: Pin, url: String, context: NSManagedObjectContext) {
         if let entity = NSEntityDescription.entityForName("Photo", inManagedObjectContext: context) {
             self.init(entity: entity, insertIntoManagedObjectContext: context)

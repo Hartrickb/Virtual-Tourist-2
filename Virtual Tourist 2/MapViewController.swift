@@ -69,6 +69,7 @@ extension MapViewController {
         }
     }
     
+    // Retrieves all pins that are stored in Core Data
     func fetchPinsFromMainQueue() {
         
         let fetchRequest = NSFetchRequest(entityName: "Pin")
@@ -77,6 +78,8 @@ extension MapViewController {
             let result = try coreDataStack.context.executeFetchRequest(fetchRequest) as? [Pin]
             if let result = result {
                 pins = result
+                
+                // Adds fetched Pins to map
                 performUIUpdatesOnMain({ 
                     self.mapView.removeAnnotations(self.mapView.annotations)
                     self.mapView.addAnnotations(pins)
@@ -87,6 +90,8 @@ extension MapViewController {
         }
     }
     
+    // Gets photoURLs for newly dropped pins in the background
+    // to speed up process in
     func getPhotoURLs(pin: Pin) {
         FlickrClient.sharedInstance().getPhotoURLsFromPin(pin, page: 1) { (results, pages, errorString) in
             if let error = errorString {
@@ -102,6 +107,8 @@ extension MapViewController {
                     print("No total number of pages")
                     return
                 }
+                
+                // Saves total pages and current page to Pin
                 pin.totalPages = pages!
                 pin.currentPage = 1
                 for photoURL in results! {
@@ -114,6 +121,7 @@ extension MapViewController {
         }
     }
     
+    // Sends Pin tapped to the PinPhotoCollectionViewController
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         if segue.identifier == "pinTappedSegue" {
             let pin = sender as! Pin
@@ -127,6 +135,7 @@ extension MapViewController {
 // MARK: Delegate
 extension MapViewController: MKMapViewDelegate {
     
+    // Either deletes pin if editing or goes to PinPhotoCollectionViewController
     func mapView(mapView: MKMapView, didSelectAnnotationView view: MKAnnotationView) {
         
         let annotation = view.annotation as! Pin
@@ -142,6 +151,7 @@ extension MapViewController: MKMapViewDelegate {
         
     }
     
+    // Animates Drop of the Pins
     func mapView(mapView: MKMapView, viewForAnnotation annotation: MKAnnotation) -> MKAnnotationView? {
         
         var annotationView = mapView.dequeueReusableAnnotationViewWithIdentifier("pinView") as? MKPinAnnotationView

@@ -11,6 +11,7 @@ import MapKit
 
 extension FlickrClient {
     
+    // Downloads URLs for photos from a specific Pin Location
     func getPhotoURLsFromPin(pin: Pin, page: Int, completionHandlerForPinPhotos: (results: [NSURL]?, pages: Int?, errorString: String?) -> Void) {
         
         /* 1. Specify parameters, method (if has {key}), and HTTP body (if POST) */

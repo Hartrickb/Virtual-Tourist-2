@@ -22,6 +22,7 @@ class PhotoCollectionViewCell: UICollectionViewCell {
         }
     }
     
+    // Clears the cell for reusing
     override func prepareForReuse() {
         imageView.image = nil
     }

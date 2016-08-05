@@ -25,6 +25,7 @@ class PinPhotoCollectionViewController: UIViewController {
         return Int(pin.totalPages!)
     }
     
+    // Sets current page based on the currentPage vs totalPages
     var currentPage: Int {
         get {
             if pin.currentPage! == totalPages || totalPages == 0 {
@@ -39,6 +40,8 @@ class PinPhotoCollectionViewController: UIViewController {
         }
     }
     
+    // Changes bottom button based on if any photos are selected
+    // Used to set alpha of cells and delete selected cells
     var selectedPhotos: [NSIndexPath] = [] {
         didSet {
             if selectedPhotos.isEmpty {
@@ -52,6 +55,7 @@ class PinPhotoCollectionViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        // Set delegates and dataSource
         collectionView.dataSource = self
         collectionView.delegate = self
         
@@ -63,21 +67,26 @@ class PinPhotoCollectionViewController: UIViewController {
             
         }
         
+        // Configures map view for PinPhotoCollectionViewController
         mapView.addAnnotation(pin)
         mapView.showAnnotations([pin], animated: true)
         mapView.camera.altitude *= 25
         
+        // If photos are stored in Core Data, do not get new photos
         if fetchPhotosFromMain().isEmpty {
             getPhotoURLs()
         }
     }
     
     @IBAction func bottomButtonPressed(sender: AnyObject) {
+        // Deletes photos currently displayed and gets new photos
         if selectedPhotos.isEmpty {
             for photo in fetchedResultsController.fetchedObjects as! [Photo] {
                 fetchedResultsController.managedObjectContext.deleteObject(photo)
             }
             getPhotoURLs()
+            
+        // Deletes selected photos and saves Core Data
         } else {
             for index in selectedPhotos {
                 let photo = fetchedResultsController.objectAtIndexPath(index) as? Photo
@@ -89,6 +98,7 @@ class PinPhotoCollectionViewController: UIViewController {
         
     }
     
+    // Gets photos from Core Data
     func fetchPhotosFromMain() -> [Photo] {
         let fetchRequest = NSFetchRequest(entityName: "Photo")
         
@@ -113,6 +123,7 @@ class PinPhotoCollectionViewController: UIViewController {
         return photos
     }
     
+    // Get photos from Flickr based on pin
     func getPhotoURLs() {
         FlickrClient.sharedInstance().getPhotoURLsFromPin(pin, page: currentPage) { (results, pages, errorString) in
             if let error = errorString {
@@ -130,9 +141,12 @@ class PinPhotoCollectionViewController: UIViewController {
                 }
                 
                 for photoURL in results! {
+                    // Creates a new photo for associated pin with URL
                     let urlString = String(photoURL)
                     _ = Photo(pin: self.pin, url: urlString, context: self.coreDataStack.context)
                 }
+                
+                // Updates current page for pin in Core Data
                 self.pin.currentPage = self.currentPage
                 print("currentPage: \(self.currentPage)")
                 self.coreDataStack.save()
@@ -141,6 +155,7 @@ class PinPhotoCollectionViewController: UIViewController {
         }
     }
     
+    // Downloads images for cell
     func assignCellNewPhoto(cell: PhotoCollectionViewCell, photo: Photo) {
         cell.activityIndicator.startAnimating()
         let url = NSURL(string: photo.url)!
@@ -174,6 +189,7 @@ class PinPhotoCollectionViewController: UIViewController {
 
 extension PinPhotoCollectionViewController: UICollectionViewDataSource {
     
+    // Calculates how many cells to display
     func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         guard let fetchedItems = fetchedResultsController.fetchedObjects?.count else {
             return 0
@@ -181,18 +197,23 @@ extension PinPhotoCollectionViewController: UICollectionViewDataSource {
         return fetchedItems
     }
     
+    // Creates the cells and formats them with either a fetched image from Core
+    // Data or downloads a new image
     func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
         let identifier = "PhotoCollectionViewCell"
         let cell = collectionView.dequeueReusableCellWithReuseIdentifier(identifier, forIndexPath: indexPath) as! PhotoCollectionViewCell
         let photo = fetchedResultsController.objectAtIndexPath(indexPath) as! Photo
         
+        // If there is data from Core Data fetchedResults, display the image
         if let imageData = photo.imageData {
             cell.imageView.image = UIImage(data: imageData)
+        // Get a new photo from Flickr to display and save it to Core Data
         } else {
             assignCellNewPhoto(cell, photo: photo)
             coreDataStack.save()
         }
         
+        // Controls the alpha of selected Cells
         if selectedPhotos.indexOf(indexPath) == nil {
             cell.alpha = 1.0
         } else {
@@ -207,6 +228,7 @@ extension PinPhotoCollectionViewController: UICollectionViewDataSource {
 
 extension PinPhotoCollectionViewController: UICollectionViewDelegate {
     
+    // Controls the selected cells and the selectedPhotos variable
     func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
         let cell = collectionView.cellForItemAtIndexPath(indexPath) as! PhotoCollectionViewCell
         
@@ -223,6 +245,8 @@ extension PinPhotoCollectionViewController: UICollectionViewDelegate {
 
 extension PinPhotoCollectionViewController: NSFetchedResultsControllerDelegate {
     
+    // Based on the user action of either deleting or getting new cells, add an
+    // operation to preform to the blockOperations array
     func controller(controller: NSFetchedResultsController, didChangeObject anObject: AnyObject, atIndexPath indexPath: NSIndexPath?, forChangeType type: NSFetchedResultsChangeType, newIndexPath: NSIndexPath?) {
         
         if type == NSFetchedResultsChangeType.Insert {
@@ -239,13 +263,6 @@ extension PinPhotoCollectionViewController: NSFetchedResultsControllerDelegate {
                     the.collectionView.reloadItemsAtIndexPaths([indexPath!])
                 }
             }))
-        } else if type == NSFetchedResultsChangeType.Move {
-            
-            blockOperations.append(NSBlockOperation(block: { [weak self] in
-                if let the = self {
-                    the.collectionView.moveItemAtIndexPath(indexPath!, toIndexPath: newIndexPath!)
-                }
-            }))
         } else if type == NSFetchedResultsChangeType.Delete {
             
             blockOperations.append(NSBlockOperation(block: { [weak self] in
@@ -256,6 +273,7 @@ extension PinPhotoCollectionViewController: NSFetchedResultsControllerDelegate {
         }
     }
     
+    // Perform the blockOperations and clear them
     func controllerDidChangeContent(controller: NSFetchedResultsController) {
         let batchUpdatesToPerform = {() -> Void in
             for operation in self.blockOperations {
