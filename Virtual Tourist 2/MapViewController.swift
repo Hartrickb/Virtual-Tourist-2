@@ -49,12 +49,22 @@ class MapViewController: UIViewController {
 extension MapViewController {
     
     func addPin(gesture: UILongPressGestureRecognizer) {
+        
+        // Drops a pin where the long tap ended
         if gesture.state == .Ended && !editMode {
             let areaTapped = gesture.locationInView(mapView)
+            
+            // Converts the tap to a coordinate
             let tapCoordinate = mapView.convertPoint(areaTapped, toCoordinateFromView: mapView)
+            
+            // Creates a new Pin from coordinate and saves to Core Data
             let annotation = Pin(latitude: tapCoordinate.latitude, longitude: tapCoordinate.longitude, context: coreDataStack.context)
             coreDataStack.save()
+            
+            // Adds the annotation to the map
             mapView.addAnnotation(annotation)
+            
+            // Gets first set of URLs for pin location
             getPhotoURLs(annotation)
         }
     }
