@@ -19,13 +19,14 @@ class PinPhotoCollectionViewController: UIViewController {
     var pin: Pin!
     let coreDataStack = CoreDataStack.sharedInstance()
     var fetchedResultsController: NSFetchedResultsController!
+    var blockOperations: [NSBlockOperation] = []
+    
     var totalPages: Int {
         return Int(pin.totalPages!)
     }
+    
     var currentPage: Int {
         get {
-            print("totalPages: \(totalPages)")
-            print("pin.currentPage: \(pin.currentPage!)")
             if pin.currentPage! == totalPages || totalPages == 0 {
                 return 1
             } else if Int(pin.currentPage!) < totalPages {
@@ -37,6 +38,7 @@ class PinPhotoCollectionViewController: UIViewController {
             pin.currentPage = page
         }
     }
+    
     var selectedPhotos: [NSIndexPath] = [] {
         didSet {
             if selectedPhotos.isEmpty {
@@ -46,7 +48,6 @@ class PinPhotoCollectionViewController: UIViewController {
             }
         }
     }
-    var blockOperations: [NSBlockOperation] = []
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -54,7 +55,13 @@ class PinPhotoCollectionViewController: UIViewController {
         collectionView.dataSource = self
         collectionView.delegate = self
         
-        // ADD ALERT FOR NO PHOTOS TO DISPLAY!!
+        // Display alert if no photos were returned
+        if totalPages == 0 {
+            let alert = UIAlertController(title: "No Photos Returned", message: "No photos were returned for this location. Please try again.", preferredStyle: .Alert)
+            alert.addAction(UIAlertAction(title: "Ok", style: .Default, handler: nil))
+            self.presentViewController(alert, animated: true, completion: nil)
+            
+        }
         
         mapView.addAnnotation(pin)
         mapView.showAnnotations([pin], animated: true)
@@ -186,6 +193,12 @@ extension PinPhotoCollectionViewController: UICollectionViewDataSource {
             coreDataStack.save()
         }
         
+        if selectedPhotos.indexOf(indexPath) == nil {
+            cell.alpha = 1.0
+        } else {
+            cell.alpha = 0.5
+        }
+        
         return cell
     }
 }
@@ -199,10 +212,10 @@ extension PinPhotoCollectionViewController: UICollectionViewDelegate {
         
         if let index = selectedPhotos.indexOf(indexPath) {
             selectedPhotos.removeAtIndex(index)
-            cell.imageView.alpha = 1.0
+            cell.alpha = 1.0
         } else {
             selectedPhotos.append(indexPath)
-            cell.imageView.alpha = 0.5
+            cell.alpha = 0.5
         }
     }
     
