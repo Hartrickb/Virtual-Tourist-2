@@ -109,14 +109,15 @@ extension MapViewController {
                 }
                 
                 // Saves total pages and current page to Pin
-                pin.totalPages = pages!
-                pin.currentPage = 1
-                for photoURL in results! {
-                    let urlString = String(photoURL)
-                    _ = Photo(pin: pin, url: urlString, context: self.coreDataStack.context)
-                }
-                self.coreDataStack.save()
-                
+                performUIUpdatesOnMain({ 
+                    pin.totalPages = pages!
+                    pin.currentPage = 1
+                    for photoURL in results! {
+                        let urlString = String(photoURL)
+                        _ = Photo(pin: pin, url: urlString, context: self.coreDataStack.context)
+                    }
+                    self.coreDataStack.save()
+                })
             }
         }
     }
