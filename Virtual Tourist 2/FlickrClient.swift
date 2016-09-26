@@ -11,30 +11,30 @@ import MapKit
 
 class FlickrClient {
     
-    var session = NSURLSession.sharedSession()
+    var session = URLSession.shared
     
     // MARK: GET
     
-    func taskForGETMethod(method: String, extraParameters: [String: AnyObject], completionHandlerForGET: (results: AnyObject!, error: NSError?) -> Void) -> NSURLSessionDataTask {
+    func taskForGETMethod(_ method: String, extraParameters: [String: AnyObject], completionHandlerForGET: @escaping (_ results: AnyObject?, _ error: NSError?) -> Void) -> URLSessionDataTask {
         
         /* 1. Set the parameters */
         var parametersWithBasicParameters = extraParameters
-        parametersWithBasicParameters[Constants.FlickrParameterKeys.Method] = method
-        parametersWithBasicParameters[Constants.FlickrParameterKeys.APIKey] = Constants.FlickrParameterValues.APIKey
-        parametersWithBasicParameters[Constants.FlickrParameterKeys.Format] = Constants.FlickrParameterValues.ResponseFormat
-        parametersWithBasicParameters[Constants.FlickrParameterKeys.NoJSONCallback] = Constants.FlickrParameterValues.DisableJSONCallback
-        parametersWithBasicParameters[Constants.FlickrParameterKeys.SafeSearch] = Constants.FlickrParameterValues.UseSafeSearch
+        parametersWithBasicParameters[Constants.FlickrParameterKeys.Method] = method as AnyObject?
+        parametersWithBasicParameters[Constants.FlickrParameterKeys.APIKey] = Constants.FlickrParameterValues.APIKey as AnyObject?
+        parametersWithBasicParameters[Constants.FlickrParameterKeys.Format] = Constants.FlickrParameterValues.ResponseFormat as AnyObject?
+        parametersWithBasicParameters[Constants.FlickrParameterKeys.NoJSONCallback] = Constants.FlickrParameterValues.DisableJSONCallback as AnyObject?
+        parametersWithBasicParameters[Constants.FlickrParameterKeys.SafeSearch] = Constants.FlickrParameterValues.UseSafeSearch as AnyObject?
         
         /* 2/3. Build the URL, Configure the request */
-        let request = NSMutableURLRequest(URL: flickrURLFromParameters(parametersWithBasicParameters))
+        let request = NSMutableURLRequest(url: flickrURLFromParameters(parametersWithBasicParameters))
         print("URL: \(flickrURLFromParameters(parametersWithBasicParameters))")
         /* 4. Make the request */
-        let task = session.dataTaskWithRequest(request) { (data, response, error) in
+        let task = session.dataTask(with: request as URLRequest, completionHandler: { (data, response, error) in
             
-            func sendError(error: String) {
+            func sendError(_ error: String) {
                 print("Error: \(error)")
                 let userInfo = [NSLocalizedDescriptionKey: error]
-                completionHandlerForGET(results: nil, error: NSError(domain: "taskForGETMethod", code: 1, userInfo: userInfo))
+                completionHandlerForGET(nil, NSError(domain: "taskForGETMethod", code: 1, userInfo: userInfo))
             }
             
             /* GUARD: Was there an error? */
@@ -51,7 +51,7 @@ class FlickrClient {
             
             /* 5/6. Parse the data and use the data (happens in completion handler) */
             self.convertDataWithCompletionHandler(data, completionHandlerForConvertData: completionHandlerForGET)
-        }
+        }) 
         
         /* 7. Start the request */
         task.resume()
@@ -62,38 +62,38 @@ class FlickrClient {
     // MARK: Helpers
     
     // Given raw JSON, return a usable Foundation object
-    private func convertDataWithCompletionHandler(data: NSData, completionHandlerForConvertData: (result: AnyObject!, error: NSError?) -> Void) {
+    fileprivate func convertDataWithCompletionHandler(_ data: Data, completionHandlerForConvertData: (_ result: AnyObject?, _ error: NSError?) -> Void) {
         
         var parsedResult: AnyObject!
         do {
-            parsedResult = try NSJSONSerialization.JSONObjectWithData(data, options: .AllowFragments)
+            parsedResult = try JSONSerialization.jsonObject(with: data, options: .allowFragments) as AnyObject
         } catch {
             let userInfo = [NSLocalizedDescriptionKey: "Could not parse the data as JSON: '\(data)'"]
-            completionHandlerForConvertData(result: nil, error: NSError(domain: "convertDataWithCompletionHandler", code: 1, userInfo: userInfo))
+            completionHandlerForConvertData(nil, NSError(domain: "convertDataWithCompletionHandler", code: 1, userInfo: userInfo))
         }
         
-        completionHandlerForConvertData(result: parsedResult, error: nil)
+        completionHandlerForConvertData(parsedResult, nil)
     }
     
     // Create a Flickr URL from parameters
-    private func flickrURLFromParameters(parameters: [String: AnyObject], withPathExtension: String? = nil) -> NSURL {
+    fileprivate func flickrURLFromParameters(_ parameters: [String: AnyObject], withPathExtension: String? = nil) -> URL {
         
-        let components = NSURLComponents()
+        var components = URLComponents()
         components.scheme = Constants.Flickr.APIScheme
         components.host = Constants.Flickr.APIHost
         components.path = Constants.Flickr.APIPath + (withPathExtension ?? "")
-        components.queryItems = [NSURLQueryItem]()
+        components.queryItems = [URLQueryItem]()
         
         for (key, value) in parameters {
-            let queryItem = NSURLQueryItem(name: key, value: "\(value)")
+            let queryItem = URLQueryItem(name: key, value: "\(value)")
             components.queryItems?.append(queryItem)
         }
         
-        return components.URL!
+        return components.url!
     }
     
     // Create a bbox String
-    func bboxString(pin: MKAnnotation) -> String {
+    func bboxString(_ pin: MKAnnotation) -> String {
         let latitude = Double(pin.coordinate.latitude)
         let longitude = Double(pin.coordinate.longitude)
         let minimumLon = max(longitude - Constants.Flickr.SearchBBoxHalfWidth, Constants.Flickr.SearchLonRange.0)

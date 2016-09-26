@@ -14,7 +14,7 @@ class PhotoCollectionViewCell: UICollectionViewCell {
     @IBOutlet weak var imageView: UIImageView!
     
     
-    var task: NSURLSessionTask? {
+    var task: URLSessionTask? {
         didSet {
             if let previousTask = oldValue {
                 previousTask.cancel()

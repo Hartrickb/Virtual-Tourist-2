@@ -9,8 +9,8 @@
 import Foundation
 
 // Performs updates on the main thread
-func performUIUpdatesOnMain(updates: () -> Void) {
-    dispatch_async(dispatch_get_main_queue()) {
+func performUIUpdatesOnMain(_ updates: @escaping () -> Void) {
+    DispatchQueue.main.async {
         updates()
     }
 }

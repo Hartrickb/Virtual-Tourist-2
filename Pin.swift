@@ -20,10 +20,10 @@ class Pin: NSManagedObject, MKAnnotation {
     
     // Initialized a new Pin
     convenience init(latitude: Double, longitude: Double, context: NSManagedObjectContext) {
-        if let entity = NSEntityDescription.entityForName("Pin", inManagedObjectContext: context) {
-            self.init(entity: entity, insertIntoManagedObjectContext: context)
-            self.latitude = latitude
-            self.longitude = longitude
+        if let entity = NSEntityDescription.entity(forEntityName: "Pin", in: context) {
+            self.init(entity: entity, insertInto: context)
+            self.latitude = latitude as NSNumber
+            self.longitude = longitude as NSNumber
         } else {
             fatalError("Could not initialize Pin")
         }
